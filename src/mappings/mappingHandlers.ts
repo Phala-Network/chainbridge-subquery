@@ -35,3 +35,17 @@ export async function handleCall(extrinsic: SubstrateExtrinsic): Promise<void> {
         await newExtrinsic.save()
     }
 }
+
+export async function handleProposalSucceeded(ctx: SubstrateEvent): Promise<void> {
+    const id = `chainBridge::ProposalSucceeded@${ctx.block.block.header.number.toNumber()}-${ctx.idx.toString()}`
+    if (undefined === (await ProposalSucceeded.get(id))) {
+        const {
+            data: [chainId, depositNonce],
+        } = ctx.event as unknown as IEvent<[ChainId, DepositNonce]>
+
+        const record = new ProposalSucceeded(id)
+        record.depositNonce = depositNonce.toNumber()
+        record.sourceChainId = chainId.toNumber()
+        await record.save()
+    }
+}

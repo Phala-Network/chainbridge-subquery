@@ -18,3 +18,10 @@ type Extrinsic @entity {
     module: String! @index
     success: Boolean!
 }
+
+type ProposalSucceeded @entity {
+    id: ID!
+
+    depositNonce: Int!
+    sourceChainId: Int!
+}

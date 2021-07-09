@@ -132,3 +132,8 @@ dataSources:
           kind: substrate/EventHandler
         - handler: handleCall
           kind: substrate/CallHandler
+        - handler: handleProposalSucceeded
+          kind: substrate/EventHandler
+          filter:
+            module: chainBridge
+            method: ProposalSucceeded
