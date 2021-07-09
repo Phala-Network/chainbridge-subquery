@@ -1,0 +1,20 @@
+type SpecVersion @entity {
+    id: ID! #specVersion
+    blockHeight: BigInt!
+}
+
+type Event @entity {
+    id: ID!
+    blockHeight: BigInt! @index
+    event: String! @index
+    module: String! @index
+}
+
+type Extrinsic @entity {
+    id: ID!
+    blockHeight: BigInt! @index
+    call: String! @index
+    isSigned: Boolean!
+    module: String! @index
+    success: Boolean!
+}

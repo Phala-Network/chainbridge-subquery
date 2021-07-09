@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "declaration": true,
+        "emitDecoratorMetadata": true,
+        "esModuleInterop": true,
+        "experimentalDecorators": true,
+        "importHelpers": true,
+        "module": "commonjs",
+        "outDir": "dist",
+        "paths": {
+            "@phala/types": ["./src/interfaces/types.ts"],
+            "@polkadot/api/augment": ["./src/interfaces/augment-api.ts"],
+            "@polkadot/types/augment": ["./src/interfaces/augment-types.ts"]
+        },
+        "resolveJsonModule": true,
+        "target": "es2017"
+    },
+    "include": ["node_modules/@subql/types/dist/global.d.ts", "src/**/*.ts"]
+}

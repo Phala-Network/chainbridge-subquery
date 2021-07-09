@@ -1,0 +1,10 @@
+.vscode
+!.vscode/extensions.json
+dist
+src/interfaces/*
+src/interfaces/phala/*
+!src/interfaces/definitions.ts
+!src/interfaces/phala
+!src/interfaces/phala/definitions.ts
+src/types
+node_modules
