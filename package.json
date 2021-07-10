@@ -21,6 +21,9 @@
     "scripts": {
         "build": "tsc -b",
         "codegen": "./node_modules/.bin/subql codegen",
+        "compose:db": "docker compose up postgres",
+        "compose:down": "docker compose down",
+        "compose:up": "docker compose up subquery-node subquery-query",
         "typegen:from-defs": "ts-node --skip-project node_modules/@polkadot/typegen/scripts/polkadot-types-from-defs.cjs --package '.' --input ./src/interfaces",
         "typegen:from-chain": "ts-node --skip-project node_modules/@polkadot/typegen/scripts/polkadot-types-from-chain.cjs --package '.' --output ./src/interfaces --endpoint"
     },
