@@ -1,7 +1,5 @@
-import { IEvent } from '@polkadot/types/types'
 import { SubstrateBlock, SubstrateEvent, SubstrateExtrinsic } from '@subql/types'
-import { ChainId, DepositNonce } from '../interfaces'
-import { Event, Extrinsic, ProposalSucceeded, SpecVersion } from '../types'
+import { Event, Extrinsic, SpecVersion } from '../types'
 
 export async function handleBlock(block: SubstrateBlock): Promise<void> {
     const specVersion = await SpecVersion.get(block.specVersion.toString())
@@ -33,19 +31,5 @@ export async function handleCall(extrinsic: SubstrateExtrinsic): Promise<void> {
         newExtrinsic.success = extrinsic.success
         newExtrinsic.isSigned = extrinsic.extrinsic.isSigned
         await newExtrinsic.save()
-    }
-}
-
-export async function handleProposalSucceeded(ctx: SubstrateEvent): Promise<void> {
-    const id = `chainBridge::ProposalSucceeded@${ctx.block.block.header.number.toNumber()}-${ctx.idx.toString()}`
-    if (undefined === (await ProposalSucceeded.get(id))) {
-        const {
-            data: [chainId, depositNonce],
-        } = ctx.event as unknown as IEvent<[ChainId, DepositNonce]>
-
-        const record = new ProposalSucceeded(id)
-        record.depositNonce = depositNonce.toNumber()
-        record.sourceChainId = chainId.toNumber()
-        await record.save()
     }
 }

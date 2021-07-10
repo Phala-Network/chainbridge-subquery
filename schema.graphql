@@ -19,9 +19,10 @@ type Extrinsic @entity {
     success: Boolean!
 }
 
-type ProposalSucceeded @entity {
+type ProposalSucceededEvent @entity {
     id: ID!
 
-    depositNonce: Int!
+    depositNonce: BigInt!
+    extrinsic: String
     sourceChainId: Int!
 }
