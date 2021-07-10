@@ -33,6 +33,7 @@ services:
             - --playground
         depends_on:
             - 'postgres'
+            - 'subquery-node'
         environment:
             DB_DATABASE: subquery-node
             DB_HOST: postgres
