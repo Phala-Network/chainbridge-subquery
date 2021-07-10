@@ -132,6 +132,11 @@ dataSources:
           kind: substrate/EventHandler
         - handler: handleCall
           kind: substrate/CallHandler
+        - handler: handleFungibleTransferEvent
+          kind: substrate/EventHandler
+          filter:
+            module: chainBridge
+            method: FungibleTransfer
         - handler: handleProposalSucceededEvent
           kind: substrate/EventHandler
           filter:

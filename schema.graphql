@@ -19,6 +19,18 @@ type Extrinsic @entity {
     success: Boolean!
 }
 
+# FungibleTransfer(ChainId, DepositNonce, ResourceId, U256, Vec<u8>)
+type FungibleTransferEvent @entity {
+    id: ID!
+
+    amount: String! # string representation
+    destinationChainId: Int!
+    depositNonce: BigInt!
+    recipient: String! # hex representation
+    resourceId: String! # hex representation
+}
+
+# ProposalSucceeded(ChainId, DepositNonce)
 type ProposalSucceededEvent @entity {
     id: ID!
 
