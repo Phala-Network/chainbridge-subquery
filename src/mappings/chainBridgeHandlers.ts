@@ -19,8 +19,10 @@ export async function handleFungibleTransferEvent(ctx: SubstrateEvent): Promise<
         record.amount = amount.toString()
         record.depositNonce = depositNonce
         record.destinationChainId = chainId
+        record.executedAt = ctx.extrinsic?.extrinsic.hash.toHex()
         record.recipient = recipient.toHex()
         record.resourceId = resourceId.toHex()
+        record.signer = ctx.extrinsic?.extrinsic.signer.toString()
         await record.save()
     }
 }
@@ -38,8 +40,8 @@ export async function handleProposalSucceededEvent(ctx: SubstrateEvent): Promise
     if (undefined === (await ProposalSucceededEvent.get(id))) {
         const record = new ProposalSucceededEvent(id)
         record.depositNonce = depositNonce
-        record.extrinsic = ctx.extrinsic?.extrinsic.hash.toHex()
-        record.sourceChainId = chainId
+        record.executedAt = ctx.extrinsic?.extrinsic.hash.toHex()
+        record.originChainId = chainId
         await record.save()
     }
 }
