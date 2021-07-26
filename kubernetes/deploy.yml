@@ -1,0 +1,123 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: subquery-node
+  namespace: chainbridge-subquery
+spec:
+  selector:
+    matchLabels:
+      app: subquery-node
+  template:
+    metadata:
+      labels:
+        app: subquery-node
+    spec:
+      containers:
+        - name: subquery-node
+          image: phala/chainbridge-subql-node
+          env:
+            - name: DB_DATABASE
+              value: subquery-node
+            - name: DB_HOST
+              value: postgres
+            - name: DB_PASS
+              value: subquery-node
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_USER
+              value: subquery-node
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "1000m"
+            requests:
+              memory: "0"
+              cpu: "0"
+      volumes:
+        - name: temp-data
+          emptyDir: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: subquery-query
+  namespace: chainbridge-subquery
+spec:
+  selector:
+    matchLabels:
+      app: subquery-query
+  template:
+    metadata:
+      labels:
+        app: subquery-query
+    spec:
+      containers:
+        - name: subquery-query
+          image: onfinality/subql-query
+          env:
+            - name: DB_DATABASE
+              value: subquery-node
+            - name: DB_HOST
+              value: postgres
+            - name: DB_PASS
+              value: subquery-node
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_USER
+              value: subquery-node
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "1000m"
+            requests:
+              memory: "0"
+              cpu: "0"
+      volumes:
+        - name: temp-data
+          emptyDir: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: chainbridge-subquery
+spec:
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:13.3-alpine
+          env:
+            - name: POSTGRES_DB
+              value: subquery-node
+            - name: POSTGRES_PASSWORD
+              value: subquery-node
+            - name: POSTGRES_USER
+              value: subquery-node
+          ports:
+            - containerPort: 5432
+          resources:
+            limits:
+              memory: "1024Mi"
+              cpu: "1000m"
+      volumes:
+        - name: postgres-data
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: chainbridge
+spec:
+  selector:
+    app: postgres
+  ports:
+    - port: 5432
