@@ -11,7 +11,9 @@ services:
         volumes:
             - postgres:/var/lib/postgresql/data
     subquery-node:
-        image: onfinality/subql-node:latest
+        build:
+            context: .
+        image: phala/chainbridge-subql-node:latest
         depends_on:
             - 'postgres'
         command:
@@ -24,8 +26,6 @@ services:
             DB_PORT: 5432
             DB_USER: subquery-node
         restart: always
-        volumes:
-            - ./:/app
     subquery-query:
         image: onfinality/subql-query:latest
         command:
