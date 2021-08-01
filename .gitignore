@@ -5,6 +5,7 @@ src/interfaces/*
 src/interfaces/phala/*
 !src/interfaces/definitions.ts
 !src/interfaces/phala
-!src/interfaces/phala/definitions.ts
 src/types
 node_modules
+project.yaml
+yarn-error.log

@@ -10,10 +10,13 @@ services:
         restart: always
         volumes:
             - postgres:/var/lib/postgresql/data
-    subquery-node:
+    node:
         build:
+            args: 
+                NETWORK_ENDPOINT: wss://khala.phala.network/ws
+                NETWORK_TYPEDEFS: khala
             context: .
-        image: phala/chainbridge-subql-node:latest
+        image: phalanetwork/chainbridge-subql-node:latest-khala
         depends_on:
             - 'postgres'
         command:
@@ -25,15 +28,17 @@ services:
             DB_PASS: subquery-node
             DB_PORT: 5432
             DB_USER: subquery-node
+            NETWORK_ENDPOINT: wss://khala.phala.network/ws
+            NETWORK_TYPEDEFS: khala
         restart: always
-    subquery-query:
+    query:
         image: onfinality/subql-query:latest
         command:
             - --name=app
             - --playground
         depends_on:
             - 'postgres'
-            - 'subquery-node'
+            - 'node'
         environment:
             DB_DATABASE: subquery-node
             DB_HOST: postgres

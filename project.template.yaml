@@ -1,0 +1,29 @@
+specVersion: 0.0.1
+description: ""
+repository: https://github.com/Phala-Network/chainbridge-subql.git
+schema: ./schema.graphql
+network:
+  endpoint: ""
+  types: {}
+dataSources:
+  - name: main
+    kind: substrate/Runtime
+    startBlock: 1
+    mapping:
+      handlers:
+        - handler: handleBlock
+          kind: substrate/BlockHandler
+        - handler: handleEvent
+          kind: substrate/EventHandler
+        - handler: handleCall
+          kind: substrate/CallHandler
+        - handler: handleFungibleTransferEvent
+          kind: substrate/EventHandler
+          filter:
+            module: chainBridge
+            method: FungibleTransfer
+        - handler: handleProposalSucceededEvent
+          kind: substrate/EventHandler
+          filter:
+            module: chainBridge
+            method: ProposalSucceeded

@@ -1,32 +1,40 @@
 {
     "dependencies": {
-        "@polkadot/api": "^4.17.1",
-        "@subql/node": "^0.18.0"
+        "@polkadot/api": "^5.2.1",
+        "@subql/node": "^0.19.1"
     },
     "devDependencies": {
-        "@phala/typedefs": "^0.2.1",
-        "@polkadot/typegen": "^4.17.1",
-        "@polkadot/types": "^4.17.1",
+        "@phala/typedefs": "^0.2.5",
+        "@polkadot/typegen": "^5.2.1",
+        "@polkadot/types": "^5.2.1",
         "@subql/cli": "^0.10.0",
         "@subql/types": "^0.8.0",
+        "@types/gulp": "^4.0.9",
+        "@types/js-yaml": "^4.0.2",
+        "@types/node": "^16.4.9",
+        "@types/yargs": "^17.0.2",
         "@typescript-eslint/eslint-plugin": "^4.27.0",
         "@typescript-eslint/parser": "^4.27.0",
         "eslint": "^7.29.0",
         "eslint-config-prettier": "^8.3.0",
         "eslint-plugin-import": "^2.23.4",
         "eslint-plugin-prettier": "^3.4.0",
+        "esm": "^3.2.25",
+        "execa": "^5.1.1",
+        "gulp": "^4.0.2",
         "prettier": "^2.3.1",
         "ts-node": "^10.1.0",
         "typescript": "^4.1.3"
     },
     "scripts": {
-        "build": "tsc -b",
-        "codegen": "./node_modules/.bin/subql codegen",
+        "configure": "gulp configure",
+        "codegen": "gulp codegen",
+        "typegen": "gulp typegen",
+        "build": "gulp typescript",
         "compose:db": "docker compose up postgres",
         "compose:down": "docker compose down",
-        "compose:up": "docker compose up subquery-node subquery-query",
-        "typegen:from-defs": "ts-node --skip-project node_modules/@polkadot/typegen/scripts/polkadot-types-from-defs.cjs --package '.' --input ./src/interfaces",
-        "typegen:from-chain": "ts-node --skip-project node_modules/@polkadot/typegen/scripts/polkadot-types-from-chain.cjs --package '.' --output ./src/interfaces --endpoint"
+        "compose:purge": "docker-compose down -v",
+        "compose:up": "docker compose up subquery-node subquery-query"
     },
     "private": true
 }
