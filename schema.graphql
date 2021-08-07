@@ -36,6 +36,7 @@ type FungibleTransferEvent @entity {
 type ProposalSucceededEvent @entity {
     id: ID!
 
+    blockHeight: BigInt!
     depositNonce: BigInt! @index
     executedAt: String!
     originChainId: Int! @index

@@ -39,6 +39,7 @@ export async function handleProposalSucceededEvent(ctx: SubstrateEvent): Promise
 
     if (undefined === (await ProposalSucceededEvent.get(id))) {
         const record = new ProposalSucceededEvent(id)
+        record.blockHeight = ctx.block.block.header.number.toBigInt()
         record.depositNonce = depositNonce
         record.executedAt = ctx.extrinsic?.extrinsic.hash.toHex()
         record.originChainId = chainId
