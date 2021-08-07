@@ -26,7 +26,10 @@ spec:
             - name: DB_PORT
               value: "5432"
             - name: DB_USER
-              value: subquery-node
+            - name: NETWORK_ENDPOINT
+              value: wss://khala.phala.network/ws
+            - name: NETWORK_TYPEDEFS
+              value: khala
           resources:
             limits:
               memory: "512Mi"
