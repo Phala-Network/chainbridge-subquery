@@ -37,9 +37,6 @@ spec:
             requests:
               memory: "0"
               cpu: "0"
-      volumes:
-        - name: temp-data
-          emptyDir: {}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -76,9 +73,6 @@ spec:
             requests:
               memory: "0"
               cpu: "0"
-      volumes:
-        - name: temp-data
-          emptyDir: {}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -110,9 +104,26 @@ spec:
             limits:
               memory: "1024Mi"
               cpu: "1000m"
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgres/data
       volumes:
-        - name: postgres-data
-          emptyDir: {}
+        - name: data
+          persistentVolumeClaim:
+            claimName: postgres-data
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-data
+  namespace: chainbridge-subquery
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  volumeMode: Filesystem
 ---
 apiVersion: v1
 kind: Service
