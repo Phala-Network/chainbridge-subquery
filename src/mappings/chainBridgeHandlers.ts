@@ -1,13 +1,13 @@
 import { Bytes, U256 } from '@polkadot/types'
 import { IEvent } from '@polkadot/types/types'
 import { SubstrateEvent } from '@subql/types'
-import { ChainId, DepositNonce, ResourceId } from '../interfaces'
+import { BridgeChainId, DepositNonce, ResourceId } from '../interfaces'
 import { FungibleTransferEvent, ProposalSucceededEvent } from '../types'
 
 export async function handleFungibleTransferEvent(ctx: SubstrateEvent): Promise<void> {
     const {
         data: [chainIdCodec, depositNonceCodec, resourceId, amount, recipient],
-    } = ctx.event as unknown as IEvent<[ChainId, DepositNonce, ResourceId, U256, Bytes]>
+    } = ctx.event as unknown as IEvent<[BridgeChainId, DepositNonce, ResourceId, U256, Bytes]>
 
     const chainId = chainIdCodec.toNumber()
     const depositNonce = depositNonceCodec.toBigInt()
@@ -30,7 +30,7 @@ export async function handleFungibleTransferEvent(ctx: SubstrateEvent): Promise<
 export async function handleProposalSucceededEvent(ctx: SubstrateEvent): Promise<void> {
     const {
         data: [chainIdCodec, depositNonceCodec],
-    } = ctx.event as unknown as IEvent<[ChainId, DepositNonce]>
+    } = ctx.event as unknown as IEvent<[BridgeChainId, DepositNonce]>
 
     const chainId = chainIdCodec.toNumber()
     const depositNonce = depositNonceCodec.toBigInt()
