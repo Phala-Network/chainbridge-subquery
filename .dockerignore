@@ -1,12 +1,3 @@
-*
-!docker/docker-entrypoint.sh
-!gulpfile.ts
-!package.json
-!project.template.yaml
-!schema.graphql
-!src
 src/interfaces
 !src/interfaces/definitions.ts
 src/types
-!tsconfig.json
-!yarn.lock

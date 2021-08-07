@@ -13,7 +13,8 @@
             "@polkadot/types/augment": ["./src/interfaces/augment-types.ts"]
         },
         "resolveJsonModule": true,
+        "rootDir": "src",
         "target": "es2017"
     },
-    "include": ["node_modules/@subql/types/dist/global.d.ts", "docker/**/*.ts", "gulpfile.ts", "src/**/*.ts"]
+    "include": ["node_modules/@subql/types/dist/global.d.ts", "src/**/*.ts"]
 }
