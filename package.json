@@ -31,6 +31,7 @@
         "codegen": "gulp codegen",
         "typegen": "gulp typegen",
         "build": "gulp typescript",
+        "docker": "gulp docker",
         "compose:db": "docker compose up postgres",
         "compose:down": "docker compose down",
         "compose:purge": "docker-compose down -v",
