@@ -24,9 +24,9 @@ type FungibleTransferEvent @entity {
     id: ID!
 
     amount: String!
-    depositNonce: BigInt!
-    destinationChainId: Int!
-    executedAt: String
+    depositNonce: BigInt! @index
+    destinationChainId: Int! @index
+    executedAt: String!
     recipient: String!
     resourceId: String!
     signer: String
@@ -36,7 +36,7 @@ type FungibleTransferEvent @entity {
 type ProposalSucceededEvent @entity {
     id: ID!
 
-    depositNonce: BigInt!
-    executedAt: String
-    originChainId: Int!
+    depositNonce: BigInt! @index
+    executedAt: String!
+    originChainId: Int! @index
 }
