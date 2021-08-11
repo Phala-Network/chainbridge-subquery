@@ -15,6 +15,7 @@ RUN set -ex \
     && yarn
 
 COPY \
+    .env \
     docker/docker-entrypoint.sh \
     gulpfile.ts \
     src \

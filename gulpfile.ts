@@ -1,8 +1,11 @@
-import { readFile, writeFile } from 'fs/promises'
-import { resolve } from 'path'
+import { config as configureDotEnv } from 'dotenv'
 import execa from 'execa'
+import { readFile, writeFile } from 'fs/promises'
 import { series } from 'gulp'
 import yaml from 'js-yaml'
+import { resolve } from 'path'
+
+configureDotEnv()
 
 const DEFAULT_NETWORK_ENDPOINT = 'wss://khala.phala.network/ws'
 const DEFAULT_NETWORK_TYPEDEFS = 'khala'
@@ -18,6 +21,8 @@ interface Project {
 }
 
 export const configure = async (): Promise<void> => {
+    console.info('Using typedefs name:', typedefsRef)
+
     const template = yaml.load((await readFile(resolve(__dirname, 'project.template.yaml'))).toString()) as Project
 
     const registry = await import('@phala/typedefs')
@@ -67,6 +72,8 @@ export const typegenFromDefinitions = async (): Promise<void> => {
 }
 
 export const typegenFromMetadata = async (): Promise<void> => {
+    console.info('Using endpoint:', endpoint)
+
     await execa(
         'ts-node',
         [
