@@ -12,11 +12,12 @@ services:
             - postgres:/var/lib/postgresql/data
     node:
         build:
-            args: 
+            args:
                 NETWORK_ENDPOINT: wss://khala.phala.network/ws
                 NETWORK_TYPEDEFS: khala
-            context: .
-        image: phalanetwork/chainbridge-subql-node:latest-khala
+            context: ..
+            dockerfile: docker/Dockerfile
+        image: amphineko/phala-chainbridge-subql-node:latest-khala
         depends_on:
             - 'postgres'
         command:
