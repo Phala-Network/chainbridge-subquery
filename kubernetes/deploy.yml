@@ -26,6 +26,7 @@ spec:
             - name: DB_PORT
               value: "5432"
             - name: DB_USER
+              value: subquery
             - name: NETWORK_ENDPOINT
               value: wss://khala.phala.network/ws
             - name: NETWORK_TYPEDEFS
