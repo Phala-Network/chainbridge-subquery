@@ -20,7 +20,7 @@ type Extrinsic @entity {
 }
 
 # FungibleTransfer(ChainId, DepositNonce, ResourceId, U256, Vec<u8>)
-type FungibleTransferEvent @entity {
+type ChainBridgeFungibleTransferEvent @entity {
     id: ID!
 
     amount: String!
@@ -32,12 +32,22 @@ type FungibleTransferEvent @entity {
     signer: String
 }
 
-# ProposalSucceeded(ChainId, DepositNonce)
-type ProposalSucceededEvent @entity {
+type ChainBridgeProposalApproval @entity {
     id: ID!
 
-    blockHeight: BigInt!
     depositNonce: BigInt! @index
-    executedAt: String!
     originChainId: Int! @index
+
+    approvalBlockHeight: BigInt!
+    approvalExtrinsic: String!
+    signer: String!
+}
+
+type ChainBridgeProposalExecution @entity {
+    id: ID!
+
+    depositNonce: BigInt! @index
+    originChainId: Int! @index
+
+    signer: String!
 }

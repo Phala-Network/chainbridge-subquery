@@ -8,7 +8,7 @@ network:
 dataSources:
   - name: main
     kind: substrate/Runtime
-    startBlock: 1
+    startBlock: 750
     mapping:
       handlers:
         - handler: handleBlock
@@ -22,6 +22,11 @@ dataSources:
           filter:
             module: chainBridge
             method: FungibleTransfer
+        - handler: handleProposalApprovedEvent
+          kind: substrate/EventHandler
+          filter:
+            module: chainBridge
+            method: ProposalApproved
         - handler: handleProposalSucceededEvent
           kind: substrate/EventHandler
           filter:
