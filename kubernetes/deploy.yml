@@ -18,11 +18,11 @@ spec:
           image: phala/chainbridge-subql-node
           env:
             - name: DB_DATABASE
-              value: subquery-node
+              value: subquery
             - name: DB_HOST
               value: postgres
             - name: DB_PASS
-              value: subquery-node
+              value: subquery
             - name: DB_PORT
               value: "5432"
             - name: DB_USER
@@ -58,15 +58,15 @@ spec:
           image: onfinality/subql-query
           env:
             - name: DB_DATABASE
-              value: subquery-node
+              value: subquery
             - name: DB_HOST
               value: postgres
             - name: DB_PASS
-              value: subquery-node
+              value: subquery
             - name: DB_PORT
               value: "5432"
             - name: DB_USER
-              value: subquery-node
+              value: subquery
           resources:
             limits:
               memory: "512Mi"
@@ -94,11 +94,11 @@ spec:
           image: postgres:13.3-alpine
           env:
             - name: POSTGRES_DB
-              value: subquery-node
+              value: subquery
             - name: POSTGRES_PASSWORD
-              value: subquery-node
+              value: subquery
             - name: POSTGRES_USER
-              value: subquery-node
+              value: subquery
           ports:
             - containerPort: 5432
           resources:
