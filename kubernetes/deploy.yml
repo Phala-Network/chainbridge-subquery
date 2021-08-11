@@ -130,7 +130,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: postgres
-  namespace: chainbridge
+  namespace: chainbridge-subquery
 spec:
   selector:
     app: postgres
