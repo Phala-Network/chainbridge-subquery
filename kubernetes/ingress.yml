@@ -1,0 +1,24 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  # annotations:
+  #   cert-manager.io/cluster-issuer: letsencrypt-prod
+  name: subquery-query-ingress
+  namespace: chainbridge-subquery
+spec:
+  rules:
+    - host: subquery-query
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: subquery-query
+                port:
+                  number: 3000
+  # tls:
+  #   - hosts:
+  #       - subquery-query
+  #     secretName: subquery-query
