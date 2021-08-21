@@ -1,56 +1,99 @@
+import { typesChain } from '@phala/typedefs'
+import { ApiPromise, WsProvider } from '@polkadot/api'
+import { OverrideBundleType, RegistryTypes } from '@polkadot/types/types'
 import { config as configureDotEnv } from 'dotenv'
 import execa from 'execa'
-import { readFile, writeFile } from 'fs/promises'
+import { readFile, stat, writeFile } from 'fs/promises'
 import { series } from 'gulp'
-import yaml from 'js-yaml'
+import yaml, { JSON_SCHEMA } from 'js-yaml'
 import { resolve } from 'path'
 
 configureDotEnv()
 
-const DEFAULT_NETWORK_ENDPOINT = 'wss://khala.phala.network/ws'
-const DEFAULT_NETWORK_TYPEDEFS = 'khala'
+const DEFAULT_NETWORK_ENDPOINT = 'wss://khala-api.phala.network/ws'
+
+const startBlockEnv = process.env['START_BLOCK']
 
 const endpoint = process.env['NETWORK_ENDPOINT'] ?? DEFAULT_NETWORK_ENDPOINT
-const typedefsRef = process.env['NETWORK_TYPEDEFS'] ?? DEFAULT_NETWORK_TYPEDEFS
+const startBlock = /^\d+$/.test(startBlockEnv) ? parseInt(startBlockEnv) : undefined
 
 interface Project {
+    dataSources?: [{ startBlock?: number }]
     network?: {
         endpoint?: string
-        typedefs?: unknown
+        typesBundle?: OverrideBundleType
+        typesChain?: Record<string, RegistryTypes>
     }
 }
 
+const tryLoadTypesBundle = (async (): Promise<OverrideBundleType | undefined> => {
+    const bundleStat = await stat(resolve(__dirname, 'typesBundle.ts'))
+    try {
+        if (bundleStat.isFile()) {
+            return (await import('./typesBundle')).typesBundle
+        } else {
+            throw new Error('typesBundle.ts is not a file')
+        }
+    } catch (error) {
+        console.error('Failed to import "typesBundle.ts":', error)
+    }
+})()
+
 export const configure = async (): Promise<void> => {
-    console.info('Using typedefs name:', typedefsRef)
+    console.info('Configuring project using chain endpoint:', endpoint)
 
-    const template = yaml.load((await readFile(resolve(__dirname, 'project.template.yaml'))).toString()) as Project
+    const project = yaml.load((await readFile(resolve(__dirname, 'project.template.yaml'))).toString()) as Project
 
-    const registry = await import('@phala/typedefs')
-    const types = registry[typedefsRef] as unknown
+    // set startBlock from environment variable
 
-    const network = {
-        ...template.network,
+    if (project.dataSources instanceof Array && typeof startBlock === 'number') {
+        project.dataSources.forEach((dataSource) => {
+            dataSource.startBlock = startBlock
+        })
+    }
+
+    // configure typedefs and node endpoint
+
+    const typesBundle = await tryLoadTypesBundle
+
+    project.network = {
+        ...project.network,
         endpoint,
-        types,
+        typesBundle,
+        typesChain: typesBundle !== undefined ? typesChain : undefined,
     }
 
-    const project = {
-        ...template,
-        network,
-    }
+    // write project.yaml
 
-    await writeFile(resolve(__dirname, 'project.yaml'), yaml.dump(project))
+    await writeFile(
+        resolve(__dirname, 'project.yaml'),
+        yaml.dump(project, {
+            lineWidth: -1,
+            noRefs: true,
+            schema: JSON_SCHEMA,
+        })
+    )
 }
 
 export const codegen = async (): Promise<void> => {
-    await execa('npx', ['subql', 'codegen'])
+    await execa('npx', ['subql', 'codegen', '--file', resolve(__dirname, 'project.json')])
 }
 
 export const typegenFromDefinitions = async (): Promise<void> => {
+    const typesBundle = await tryLoadTypesBundle
+
+    const provider = new WsProvider(endpoint)
+    const api = await ApiPromise.create({ provider, typesBundle, typesChain })
+    const chain = (await api.rpc.system.chain()).toString()
+    await provider.disconnect()
+
+    console.info(`Generating type definition, chain=${chain}, reflect_endpoint=${endpoint}`)
+
     const definitions = `
-        import { ${typedefsRef} } from '@phala/typedefs'
+        import { typesChain } from '@phala/typedefs'
+
         export default {
-            types: ${typedefsRef}
+            types: typesChain['${chain}']
         }
     `
 
@@ -72,7 +115,7 @@ export const typegenFromDefinitions = async (): Promise<void> => {
 }
 
 export const typegenFromMetadata = async (): Promise<void> => {
-    console.info('Using endpoint:', endpoint)
+    console.info('Generating from metadata using endpoint:', endpoint)
 
     await execa(
         'ts-node',

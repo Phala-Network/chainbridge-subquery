@@ -13,8 +13,7 @@ services:
     node:
         build:
             args:
-                NETWORK_ENDPOINT: wss://khala.phala.network/ws
-                NETWORK_TYPEDEFS: khala
+                NETWORK_ENDPOINT: wss://khala-archive.phala.network/ws
             context: ..
             dockerfile: docker/Dockerfile
         image: amphineko/phala-chainbridge-subql-node:latest-khala
@@ -29,8 +28,7 @@ services:
             DB_PASS: subquery-node
             DB_PORT: 5432
             DB_USER: subquery-node
-            NETWORK_ENDPOINT: wss://khala.phala.network/ws
-            NETWORK_TYPEDEFS: khala
+            NETWORK_ENDPOINT: wss://khala-archive.phala.network/ws
         restart: always
     query:
         image: onfinality/subql-query:latest
