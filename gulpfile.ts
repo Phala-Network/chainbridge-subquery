@@ -27,10 +27,10 @@ interface Project {
 }
 
 const tryLoadTypesBundle = (async (): Promise<OverrideBundleType | undefined> => {
-    const bundleStat = await stat(resolve(__dirname, 'typesBundle.ts'))
     try {
+        const bundleStat = await stat(resolve(__dirname, 'typesBundle.ts'))
         if (bundleStat.isFile()) {
-            return (await import('./typesBundle')).typesBundle
+            return require('./typesBundle').typesBundle
         } else {
             throw new Error('typesBundle.ts is not a file')
         }
@@ -59,8 +59,12 @@ export const configure = async (): Promise<void> => {
     project.network = {
         ...project.network,
         endpoint,
-        typesBundle,
-        typesChain: typesBundle !== undefined ? typesChain : undefined,
+    }
+
+    if (typesBundle !== undefined) {
+        project.network.typesBundle = typesBundle
+    } else {
+        project.network.typesChain = typesChain
     }
 
     // write project.yaml
