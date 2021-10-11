@@ -9,3 +9,5 @@ src/types
 node_modules
 project.yaml
 yarn-error.log
+.env
+.data

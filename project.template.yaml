@@ -1,6 +1,6 @@
 specVersion: 0.0.1
 description: ""
-repository: https://github.com/Phala-Network/chainbridge-subql.git
+repository: https://github.com/Phala-Network/chainbridge-subquery.git
 schema: ./schema.graphql
 network:
   endpoint: ""

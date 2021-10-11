@@ -1,5 +1,5 @@
-import { latest } from '@phala/typedefs'
+import { khala } from '@phala/typedefs'
 
 export default {
-    types: latest,
+    types: khala,
 }
