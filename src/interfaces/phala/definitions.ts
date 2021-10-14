@@ -1,5 +1,7 @@
-import { khala } from '@phala/typedefs'
 
-export default {
-    types: khala,
-}
+        import { typesChain } from '@phala/typedefs'
+
+        export default {
+            types: typesChain['Khala']
+        }
+    

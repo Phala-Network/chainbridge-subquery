@@ -1032,10 +1032,10 @@
   resolved "https://registry.yarnpkg.com/@oclif/screen/-/screen-1.0.4.tgz#b740f68609dfae8aa71c3a6cab15d816407ba493"
   integrity sha512-60CHpq+eqnTxLZQ4PGHYNwUX572hgpMHGPtTWMjdTMsAvlm69lZV/4ly6O3sAYkomo4NggGcomrDpBe34rxUqw==
 
-"@phala/typedefs@^0.2.28":
-  version "0.2.28"
-  resolved "https://registry.yarnpkg.com/@phala/typedefs/-/typedefs-0.2.28.tgz#d4738545456b11d8dda0f5e52612c6b59b8b4be4"
-  integrity sha512-2TLB2bR2XaWgnRVXsfQ1doIbYXI+tBFSFKzaDYcpAaVyeON12pV1YD0qeJIgF6ORsydONR84ULLIQU3L9gTN2A==
+"@phala/typedefs@^0.2.29":
+  version "0.2.29"
+  resolved "https://registry.yarnpkg.com/@phala/typedefs/-/typedefs-0.2.29.tgz#ebc95b681dacf5b111d2f9ad2057d212b366b340"
+  integrity sha512-nchW9rpTNLXzxxn3AE2IE5gj1uRE59ZL+OjUh4axaI/0V06j5hdssG7WayhYONi0/ZQWPNJJq9cxrnAtd4G0Ew==
   dependencies:
     "@polkadot/types" "^5.7.1"
 
